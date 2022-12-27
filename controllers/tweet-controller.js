@@ -37,7 +37,6 @@ module.exports = class TweetController extends ParentController {
                 error: 'Tweet content must not be empty'
             })
         }
-
         return validationErrors;
     }
 
@@ -101,7 +100,7 @@ module.exports = class TweetController extends ParentController {
      */
     async tweetsOfUser(req, res) {
         try {
-            const tweets = await this.getTweets('users', 'userId', req.params.userId);
+            const tweets = await this.getTweets('users', 'userId', [req.params.userId]);
             return res.status(200).json({
                 tweetsCount: tweets.length,
                 tweets
@@ -113,7 +112,6 @@ module.exports = class TweetController extends ParentController {
                 message: 'Internal Server error'
             });
         }
-
     }
 
     /**
@@ -124,7 +122,7 @@ module.exports = class TweetController extends ParentController {
      */
     async singleTweet(req, res) {
         try {
-            const tweets = await this.getTweets('users', 'tweets.id', req.params.tweetIds);
+            const tweets = await this.getTweets('users', 'tweets.id', [req.params.tweetIds]);
             return res.status(200).json({
                 tweetsCount: tweets.length,
                 tweets

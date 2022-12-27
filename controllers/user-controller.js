@@ -27,4 +27,34 @@ module.exports = class UserController extends AuthenticateController{
             });
         }
     }
+
+    /**
+     * @description Function to search users by email
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
+    async searchUser(req, res) {
+        try {
+            const clause = ['email', 'LIKE', `%${req.body.searchPhrase}%`];
+            const users = await this.getData(clause);
+            if (!users.length) {
+                return res.status(200).json({ message: 'No user found' });
+            }
+            users.forEach(element => {
+                delete element.password;
+            });
+
+            return res.status(200).json({
+                usersCount: users.length,
+                users
+            })
+        } catch (err) {
+            console.log("Error while fetching user: ", err);
+            return res.status(500).json({
+                statusCode: 500,
+                message: 'Internal Server error'
+            });
+        }
+    }
 }

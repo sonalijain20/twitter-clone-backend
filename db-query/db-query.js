@@ -4,16 +4,22 @@ const knex = require('../schema/utils/knex');
 
 module.exports = class DbQuery{
 
+    /**
+     * @description Function to create a record in database
+     * @param {*} tableName 
+     * @param {*} data 
+     * @returns 
+     */
     async create(tableName, data) {
         return await knex(tableName).insert(data).returning('*');
     }
-/**
- * @description function to fetch data from Database
- * @param {*} tableName 
- * @param {*} data condition
- * @param {*} columns columns to be fetched
- * @returns 
- */
+    /**
+     * @description function to fetch data from Database
+     * @param {*} tableName 
+     * @param {*} data condition
+     * @param {*} columns columns to be fetched
+     * @returns 
+     */
     async getData(tableName, data, columns) {
         if (!columns)
             columns = '*';
